@@ -394,7 +394,13 @@ static int read_processes_settings(void *settings, void *data)
 
 static void sigterm_handler(int __attribute__ ((__unused__)) signum)
 {
-	pthread_cancel(network_daemon);
+	int result = pthread_cancel(network_daemon);
+	if(result != 0)
+	{
+		errno = result;
+		perror("sigterm_handler");
+		exit(EXIT_FAILURE);
+	}
 }
 
 int main(int argc, char **argv)
