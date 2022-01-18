@@ -40,6 +40,8 @@ char *get_ctrl_socket(void) {
 }
 
 static int prepare_ipc(void) {
+	fprintf(stdout, "%s called\n", __func__);
+
 	int connfd;
 	struct sockaddr_un servaddr;
 
@@ -52,7 +54,9 @@ static int prepare_ipc(void) {
 
 	strncpy(servaddr.sun_path, get_ctrl_socket(), sizeof(servaddr.sun_path) - 1);
 
+	fprintf(stdout, "Open socket: %s\n", get_ctrl_socket());
 	if (connect(connfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0) {
+            fprintf(stdout, "%s %d: Close socket\n", __func__, __LINE__);
 		close(connfd);
 		return -1;
 	}
@@ -71,6 +75,7 @@ int ipc_postupdate(ipc_message *msg) {
 				msg->data.procmsg.len > sizeof(msg->data.procmsg.buf)
 				    ? sizeof(msg->data.procmsg.buf)
 				    : msg->data.procmsg.len)) == NULL) {
+                  fprintf(stdout, "%s %d: Close socket\n", __func__, __LINE__);
 			close(connfd);
 			return -1;
 		}
@@ -88,6 +93,7 @@ int ipc_postupdate(ipc_message *msg) {
 	int result = write(connfd, msg, sizeof(*msg)) != sizeof(*msg) ||
 		read(connfd, msg, sizeof(*msg)) != sizeof(*msg);
 
+	fprintf(stdout, "%s %d: Close socket\n", __func__, __LINE__);
 	close(connfd);
 	return -result;
 }
@@ -134,6 +140,7 @@ int ipc_get_status(ipc_message *msg)
 		return -1;
 
 	ret = __ipc_get_status(connfd, msg, 0);
+	fprintf(stdout, "%s %d: Close socket\n", __func__, __LINE__);
 	close(connfd);
 
 	return ret;
@@ -154,6 +161,7 @@ int ipc_get_status_timeout(ipc_message *msg, unsigned int timeout_ms)
 		return -1;
 
 	ret = __ipc_get_status(connfd, msg, timeout_ms);
+	fprintf(stdout, "%s %d: Close socket\n", __func__, __LINE__);
 	close(connfd);
 
 	/* Not very nice, but necessary in order to keep the API consistent. */
@@ -289,6 +297,7 @@ int ipc_inst_start_ext(void *priv, ssize_t size)
 	return connfd;
 
 cleanup:
+	fprintf(stdout, "%s %d: Close socket\n", __func__, __LINE__);
 	close(connfd);
 	return -1;
 }
@@ -314,6 +323,7 @@ int ipc_send_data(int connfd, char *buf, int size)
 
 void ipc_end(int connfd)
 {
+	fprintf(stdout, "%s %d: Close socket\n", __func__, __LINE__);
 	close(connfd);
 }
 
@@ -331,6 +341,7 @@ int ipc_wait_for_complete(getstatus callback)
 		if (fd < 0)
 			break;
 		ret = __ipc_get_status(fd, &message, 0);
+            fprintf(stdout, "%s %d: Close socket\n", __func__, __LINE__);
 		close(fd);
 
 		if (ret < 0) {
@@ -363,6 +374,7 @@ int ipc_send_cmd(ipc_message *msg)
 	int ret = write(connfd, msg, sizeof(*msg)) != sizeof(*msg) ||
 		read(connfd, msg, sizeof(*msg))  != sizeof(*msg);
 
+	fprintf(stdout, "%s %d: Close socket\n", __func__, __LINE__);
 	close(connfd);
 
 	return -ret;

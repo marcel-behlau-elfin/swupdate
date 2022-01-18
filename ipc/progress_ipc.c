@@ -39,6 +39,7 @@ char *get_prog_socket(void) {
 
 static int _progress_ipc_connect(const char *socketpath, bool reconnect)
 {
+	fprintf(stdout, "%s called\n", __func__);
 	struct sockaddr_un servaddr;
 	int fd = socket(AF_LOCAL, SOCK_STREAM, 0);
 	bzero(&servaddr, sizeof(servaddr));
@@ -52,6 +53,7 @@ static int _progress_ipc_connect(const char *socketpath, bool reconnect)
 		return -1;
 
 	do {
+	      fprintf(stdout, "Open socket: %s\n", socketpath);
 		if (connect(fd, (struct sockaddr *) &servaddr, sizeof(servaddr)) == 0) {
 			break;
 		}
