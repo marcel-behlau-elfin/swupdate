@@ -96,11 +96,9 @@ void notifier_set_color(int level, char *col);
 			else \
 				snprintf(tmpbuf, sizeof(tmpbuf), \
 					       	"ERROR : " format, ## arg); \
-			notify(FAILURE, 0, level, tmpbuf); \
 		} else {\
 			snprintf(tmpbuf, sizeof(tmpbuf), \
 				       	"[%s] : " format, __func__, ## arg); \
-			notify(RUN, RECOVERY_NO_ERROR, level, tmpbuf); \
 		} \
 	} \
 } while(0)

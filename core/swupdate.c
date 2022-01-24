@@ -117,7 +117,6 @@ static struct option long_options[] = {
 	{NULL, 0, NULL, 0}
 };
 
-int loglevel = ERRORLEVEL;
 
 static void usage(char *programname)
 {

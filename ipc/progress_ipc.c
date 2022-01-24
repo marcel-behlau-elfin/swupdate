@@ -15,6 +15,8 @@
 #include <stdbool.h>
 #include "util.h"
 
+int loglevel = ERRORLEVEL;
+
 #include <progress_ipc.h>
 
 #ifdef CONFIG_SOCKET_PROGRESS_PATH
