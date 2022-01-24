@@ -395,7 +395,7 @@ static int read_processes_settings(void *settings, void *data)
 static void sigterm_handler(int __attribute__ ((__unused__)) signum)
 {
 	int result = pthread_cancel(network_daemon);
-	fprintf(stdout, "%s %d: Received sigterm: pthread_cancel result: %d\n", __func__, __LINE__, result);
+	TRACE("%d: Received sigterm: pthread_cancel result: %d\n", __LINE__, result);
 	if(result != 0)
 	{
 		errno = result;
