@@ -527,7 +527,7 @@ void server_print_help(void)
 	    stdout,
 	    "\t  -u, --url         * Host and port of the server instance, "
 	    "e.g., localhost:8080\n"
-	    "\t  -p, --polldelay     Delay in seconds between two hawkBit "
+	    "\t  -p, --polldelay     Delay in seconds between two server "
 	    "poll operations (default: %ds).\n"
 	    "\t  -r, --retry         Resume and retry interrupted downloads "
 	    "(default: %d tries).\n"
@@ -536,9 +536,9 @@ void server_print_help(void)
 	    "\t  -y, --proxy         Use proxy. Either give proxy URL, else "
 	    "{http,all}_proxy env is tried.\n"
 	    "\t  -a, --custom-http-header <name> <value> Set custom HTTP header, "
-	    "appended to every HTTP request being sent."
-	    "\t  -n, --max-download-speed <limit>	Set download speed limit."
-		"Example: -n 100k; -n 1M; -n 100; -n 1G",
+	    "appended to every HTTP request being sent.\n"
+	    "\t  -n, --max-download-speed <limit>        Set download speed limit. "
+		"Example: -n 100k; -n 1M; -n 100; -n 1G\n",
 	    CHANNEL_DEFAULT_POLLING_INTERVAL, CHANNEL_DEFAULT_RESUME_TRIES,
 	    CHANNEL_DEFAULT_RESUME_DELAY);
 }
